@@ -15,8 +15,8 @@
   (let ((cookie-jar (make-instance 'drakma:cookie-jar)))
     (drakma:http-request "http://www.myfitnesspal.com/account/login"
 			 :method :post
-			 :parameters '(("username" . username)
-				       ("password" . password))
+			 :parameters `(("username" . ,username)
+				       ("password" . ,password))
 			 :cookie-jar cookie-jar)
     (setq body (drakma:http-request "http://www.myfitnesspal.com/measurements/edit?page=1&type=1"
 				    :cookie-jar cookie-jar))
