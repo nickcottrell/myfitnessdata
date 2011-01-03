@@ -1,6 +1,27 @@
 #!/usr/bin/clisp
 
 (load (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))
-(ql:quickload "drakma")
+(ql:quickload '("drakma" "xmls"))
 
+(defun show-usage () 
+  (format t "Usage: myfitnessdata USERNAME PASSWORD FILENAME~%~%")
+  (format t "  USERNAME  Your MyFitnessPal username~%")
+  (format t "  PASSWORD  Your MyFitnessPal password~%")
+  (format t "  FILENAME  The CSV file in which weights will be saved~%~%")
+  (format t "Example:~%~%")
+  (format t "  ./myfitnessdata bob b0bsp4ss! weights.csv~%~%"))
 
+(defun scrape (username password filename)
+  (let ((cookie-jar (make-instance 'drakma:cookie-jar)))
+    (drakma:http-request "http://www.myfitnesspal.com/account/login"
+			 :method :post
+			 :parameters '(("username" . username)
+				       ("password" . password))
+			 :cookie-jar cookie-jar)
+    (setq body (drakma:http-request "http://www.myfitnesspal.com/measurements/edit?page=1&type=1"
+				    :cookie-jar cookie-jar))
+    (format t body)))
+
+(if (= (length ext:*args*) 3)
+    (scrape (nth 0 ext:*args*) (nth 1 ext:*args*) (nth 2 ext:*args*))
+  (show-usage))
