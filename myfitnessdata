@@ -1,5 +1,6 @@
-#!/usr/bin/clisp
+#!/usr/bin/sbcl --script
 
+(require :sb-posix)
 (load (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))
 (ql:quickload '("drakma" "xmls"))
 
@@ -22,6 +23,6 @@
 				    :cookie-jar cookie-jar))
     (format t body)))
 
-(if (= (length ext:*args*) 3)
-    (scrape (nth 0 ext:*args*) (nth 1 ext:*args*) (nth 2 ext:*args*))
+(if (= (length sb-ext:*posix-argv*) 3)
+    (scrape (nth 0 sb-ext:*posix-argv*) (nth 1 sb-ext:*posix-argv*) (nth 2 sb-ext:*posix-argv*))
   (show-usage))
