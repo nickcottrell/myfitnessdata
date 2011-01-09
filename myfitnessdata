@@ -5,14 +5,13 @@
 (ql:quickload '("drakma" "xmls"))
 
 (defun show-usage () 
-  (format t "Usage: myfitnessdata USERNAME PASSWORD FILENAME~%~%")
+  (format t "Usage: myfitnessdata USERNAME PASSWORD~%~%")
   (format t "  USERNAME  Your MyFitnessPal username~%")
-  (format t "  PASSWORD  Your MyFitnessPal password~%")
-  (format t "  FILENAME  The CSV file in which weights will be saved~%~%")
+  (format t "  PASSWORD  Your MyFitnessPal password~%~%")
   (format t "Example:~%~%")
   (format t "  ./myfitnessdata bob b0bsp4ss! weights.csv~%~%"))
 
-(defun scrape (username password filename)
+(defun scrape (username password)
   (let ((cookie-jar (make-instance 'drakma:cookie-jar)))
     (drakma:http-request "http://www.myfitnesspal.com/account/login"
 			 :method :post
