@@ -11,17 +11,32 @@
   (format t "Example:~%~%")
   (format t "  ./myfitnessdata bob b0bsp4ss! weights.csv~%~%"))
 
-(defun scrape (username password)
+(defun get-page (page-num username password)
   (let ((cookie-jar (make-instance 'drakma:cookie-jar)))
     (drakma:http-request "http://www.myfitnesspal.com/account/login"
-			 :method :post
-			 :parameters `(("username" . ,username)
-				       ("password" . ,password))
-			 :cookie-jar cookie-jar)
-    (setq body (drakma:http-request "http://www.myfitnesspal.com/measurements/edit?page=1&type=1"
-				    :cookie-jar cookie-jar))
-    (format t body)))
+  			 :method :post
+  			 :parameters `(("username" . ,username)
+  				       ("password" . ,password))
+  			 :cookie-jar cookie-jar)
+    (let ((url (concatenate 'string "http://www.myfitnesspal.com/measurements/edit?type=1&page=" (write-to-string page-num))))
+      (format t "Fetching page ~a~%" url)
+      (let ((body (drakma:http-request url :cookie-jar cookie-jar)))
+	(if (search "No measurements found." body)
+	    nil
+	  body)))))
+
+(defun scrape-body (body)
+  )
+
+(defun scrape-page (page-num username password)
+  (let ((body (get-page page-num username password)))
+    (if (not (string= nil body))
+	(progn
+	  (scrape-body body)
+	  (scrape-page (+ 1 page-num) username password)))))
 
 (if (= (length sb-ext:*posix-argv*) 3)
-    (scrape (nth 0 sb-ext:*posix-argv*) (nth 1 sb-ext:*posix-argv*) (nth 2 sb-ext:*posix-argv*))
+    (let ((username (nth 0 sb-ext:*posix-argv*))
+	  (password (nth 1 sb-ext:*posix-argv*)))
+      (scrape-page 1))
   (show-usage))
