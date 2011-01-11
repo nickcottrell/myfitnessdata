@@ -38,5 +38,5 @@
 (if (= (length sb-ext:*posix-argv*) 3)
     (let ((username (nth 0 sb-ext:*posix-argv*))
 	  (password (nth 1 sb-ext:*posix-argv*)))
-      (scrape-page 1))
+      (scrape-page 1 username password))
   (show-usage))

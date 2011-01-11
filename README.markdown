@@ -19,9 +19,12 @@ roadmap
 2. parse just Weight information into weight.csv
 3. Windows executable (bundled SBCL or other LISP? compiled?) with installer
 4. parse additional measurements into separate CSV files
+5. Mac OS X executable (???) with installer
 
 debian / ubuntu
 ---------------
-As at 9 January 2011, there is a bug in the SBCL package for Debian & Ubuntu which will cause myfitnessdata to fail with an error like:
+As of 9 January 2011, there is a bug in the SBCL package for Debian & Ubuntu which will cause myfitnessdata to fail with an error like:
+
 `Not an absolute pathname #P"~/.clc/systems/"`
+
 The fix to this is documented [here](http://ikki.ws/showpost?postid=103).
