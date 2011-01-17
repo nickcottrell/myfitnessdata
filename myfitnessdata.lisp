@@ -1,8 +1,6 @@
-#!/usr/bin/sbcl --script
-
 (require :sb-posix)
 (load (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))
-(ql:quickload '("drakma" "xmls"))
+(ql:quickload '("drakma" "closure-html"))
 
 (defun show-usage () 
   (format t "Usage: myfitnessdata USERNAME PASSWORD~%~%")
@@ -15,8 +13,7 @@
   (let ((cookie-jar (make-instance 'drakma:cookie-jar)))
     (drakma:http-request "http://www.myfitnesspal.com/account/login"
   			 :method :post
-  			 :parameters `(("username" . ,username)
-  				       ("password" . ,password))
+  			 :parameters `(("username" . ,username) ("password" . ,password))
   			 :cookie-jar cookie-jar)
     (let ((url (concatenate 'string "http://www.myfitnesspal.com/measurements/edit?type=1&page=" (write-to-string page-num))))
       (format t "Fetching page ~a~%" url)
