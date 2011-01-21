@@ -1,6 +1,6 @@
 (require :sb-posix)
 (load (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))
-(ql:quickload '("drakma" "closure-html"))
+(ql:quickload '("drakma" "closure-html" "cxml-stp"))
 
 (defun show-usage () 
   (format t "Usage: myfitnessdata USERNAME PASSWORD~%~%")
@@ -23,7 +23,8 @@
 	  body)))))
 
 (defun scrape-body (body)
-  )
+  (let ((valid-xhtml (chtml:parse body (cxml:make-string-sink))))
+    (let ((xhtml-tree (cxml:parse valid-xhtml (cxml-xmls:make-xmls-builder)))))))
 
 (defun scrape-page (page-num username password)
   (let ((body (get-page page-num username password)))
