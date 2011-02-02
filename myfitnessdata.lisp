@@ -16,7 +16,6 @@
   			 :parameters `(("username" . ,username) ("password" . ,password))
   			 :cookie-jar cookie-jar)
     (let ((url (concatenate 'string "http://www.myfitnesspal.com/measurements/edit?type=1&page=" (write-to-string page-num))))
-      (format t "Fetching page ~a~%" url)
       (let ((body (drakma:http-request url :cookie-jar cookie-jar)))
 	(if (search "No measurements found." body)
 	    nil
@@ -29,10 +28,17 @@
 			  (when (and (typep element 'stp:element)
 				     (equal (stp:local-name element) "tr"))
 			    (scrape-row element))))))
-			   
+
 (defun scrape-row (row)
   (if (equal 4 (stp:number-of-children row))
-      (format t "~a" (stp:data (stp:nth-child 0 (stp:nth-child 0 row))))))
+      (let ((measurement-type (nth-child-data 0 row))
+	    (measurement-date (nth-child-data 1 row))
+	    (measurement-value (nth-child-data 2 row)))
+	(if (not (equal measurement-type "Measurement"))
+	    (format t "~a,~a~%" measurement-date measurement-value)))))
+
+(defun nth-child-data (number row)
+  (stp:data (stp:nth-child 0 (stp:nth-child number row))))
 
 (defun scrape-page (page-num username password)
   (let ((body (get-page page-num username password)))
