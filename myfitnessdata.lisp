@@ -24,7 +24,15 @@
 
 (defun scrape-body (body)
   (let ((valid-xhtml (chtml:parse body (cxml:make-string-sink))))
-    (let ((xhtml-tree (cxml:parse valid-xhtml (cxml-xmls:make-xmls-builder)))))))
+    (let ((xhtml-tree (chtml:parse valid-xhtml (cxml-stp:make-builder))))
+      (stp:do-recursively (element xhtml-tree)
+			  (when (and (typep element 'stp:element)
+				     (equal (stp:local-name element) "tr"))
+			    (scrape-row element))))))
+			   
+(defun scrape-row (row)
+  (if (equal 4 (stp:number-of-children row))
+      (format t "~a" (stp:data (stp:nth-child 0 (stp:nth-child 0 row))))))
 
 (defun scrape-page (page-num username password)
   (let ((body (get-page page-num username password)))
