@@ -16,10 +16,11 @@ The GPL is specifically designed to reduce the usefulness of GPL-licensed code t
 roadmap
 -------
 1. script that executes on any POSIX system running SBCL
-2. parse just Weight information into weight.csv
-3. Windows executable (bundled SBCL or other LISP? compiled?) with installer
-4. parse additional measurements into separate CSV files
-5. Mac OS X executable (???) with installer
+2. unit test harness once I've found my feet in Lisp
+3. parse just Weight information into weight.csv
+4. Windows executable (bundled SBCL or other LISP? compiled?) with installer
+5. parse additional measurements into separate CSV files
+6. Mac OS X executable (???) with installer
 
 debian / ubuntu
 ---------------

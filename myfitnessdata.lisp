@@ -24,10 +24,16 @@
 (defun scrape-body (body)
   (let ((valid-xhtml (chtml:parse body (cxml:make-string-sink))))
     (let ((xhtml-tree (chtml:parse valid-xhtml (cxml-stp:make-builder))))
-      (stp:do-recursively (element xhtml-tree)
-			  (when (and (typep element 'stp:element)
-				     (equal (stp:local-name element) "tr"))
-			    (scrape-row element))))))
+      (scrape-xhtml xhtml-tree))))
+
+(defun scrape-xhtml (xhtml-tree)
+  (setq results nil)
+  (stp:do-recursively (element xhtml-tree)
+		      (when (and (typep element 'stp:element)
+				 (equal (stp:local-name element) "tr"))
+			(if (scrape-row element)
+			    (setq results (append results (list (scrape-row element)))))))
+  results)			  
 
 (defun scrape-row (row)
   (if (equal 4 (stp:number-of-children row))
@@ -35,7 +41,7 @@
 	    (measurement-date (nth-child-data 1 row))
 	    (measurement-value (nth-child-data 2 row)))
 	(if (not (equal measurement-type "Measurement"))
-	    (format t "~a,~a~%" measurement-date measurement-value)))))
+	    (cons measurement-date measurement-value)))))
 
 (defun nth-child-data (number row)
   (stp:data (stp:nth-child 0 (stp:nth-child number row))))
@@ -44,8 +50,8 @@
   (let ((body (get-page page-num username password)))
     (if (not (string= nil body))
 	(progn
-	  (scrape-body body)
-	  (scrape-page (+ 1 page-num) username password)))))
+	  (append (scrape-body body)
+		  (scrape-page (+ 1 page-num) username password))))))
 
 (if (= (length sb-ext:*posix-argv*) 3)
     (let ((username (nth 0 sb-ext:*posix-argv*))
