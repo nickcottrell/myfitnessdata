@@ -16,15 +16,17 @@
 
 (defun login (username password)
   (setq cookie-jar (make-instance 'drakma:cookie-jar))
-  (drakma:http-request "http://www.myfitnesspal.com/account/login"
+  (let ((body (drakma:http-request "http://www.myfitnesspal.com/account/login"
 		       :method :post
 		       :parameters `(("username" . ,username) ("password" . ,password))
-		       :cookie-jar cookie-jar)
-  cookie-jar)
+		       :cookie-jar cookie-jar)))
+    ; this is pants; should be checking the contents of the cookie jar
+    (if (search "Member Login" body)
+	nil
+	cookie-jar)))
 
 (defun get-page (page-num cookie-jar)
   (let ((url (concatenate 'string "http://www.myfitnesspal.com/measurements/edit?type=1&page=" (write-to-string page-num))))
-    (format t "Fetching ~A~%" url)
     (let ((body (drakma:http-request url :cookie-jar cookie-jar)))
       (if (search "No measurements found." body)
 	  nil
@@ -64,10 +66,16 @@
 (defun write-csv (data path)
   (format t "Would write CSV to ~A: ~A" path data)) 
 
+(defun show-login-failure ()
+  (format t "Login failed."))
+
+; uuuuuuuugly
 (if (= (length sb-ext:*posix-argv*) 3)
     (let* ((username (nth 0 sb-ext:*posix-argv*))
 	   (password (nth 1 sb-ext:*posix-argv*))
 	   (path (nth 2 sb-ext:*posix-argv*))
 	   (cookie-jar (login username password)))
-      (write-csv (scrape-page 1 cookie-jar) path))
+      (if (cookie-jar)
+	  (write-csv (scrape-page 1 cookie-jar) path)
+	(show-login-failure))) 
   (show-usage))
