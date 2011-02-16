@@ -75,7 +75,7 @@
 		(scrape-page (+ 1 page-num) cookie-jar)))))
 
 (defun write-csv (data path)
-  (format t "Would write CSV to ~A: ~A" path data)) 
+  (format t "Would write CSV to ~A: ~A~%" path data)) 
 
 (defun show-login-failure ()
   (format t "Login failed."))
@@ -86,12 +86,10 @@
 	(write-csv (scrape-page 1 cookie-jar) path)
       (show-login-failure))))
 
-(defun main ()
-  (if (= (length sb-ext:*posix-argv*) 3)
-      (let ((username (nth 0 sb-ext:*posix-argv*))
-	    (password (nth 1 sb-ext:*posix-argv*))
-	    (path (nth 2 sb-ext:*posix-argv*)))
-	(scrape (username password path)))
+(defun main (args)
+  (if (= (length args) 4)
+      (let ((username (nth 1 args))
+	    (password (nth 2 args))
+	    (path (nth 3 args)))
+	(scrape username password path))
     (show-usage)))
-
-(main)
