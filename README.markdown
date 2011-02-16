@@ -15,12 +15,11 @@ The GPL is specifically designed to reduce the usefulness of GPL-licensed code t
 
 roadmap
 -------
-1. script that executes on any POSIX system running SBCL
-2. unit test harness once I've found my feet in Lisp
-3. parse just Weight information into weight.csv
-4. Windows executable (bundled SBCL or other LISP? compiled?) with installer
-5. parse additional measurements into separate CSV files
-6. Mac OS X executable (???) with installer
+1. script that executes on any POSIX system running SBCL [done]
+2. Windows executable [done]
+3. parse just Weight information into weight.csv [in progress]
+4. Windows installer
+5. test suite
 
 debian / ubuntu
 ---------------
@@ -40,5 +39,6 @@ To build on MS Windows, you'll need to install [Git](http://code.google.com/p/ms
 
 Make sure that your GnuWin32 bin directory is in your Windows PATH, as well.
 
+When installing buildapp, note that the Makefile that comes with buildapp doesn't work on Windows.  So instead of using install_buildapp.sh, you'll need to run make, then manually copy buildapp.exe into place.
 
 
