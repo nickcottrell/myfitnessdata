@@ -1,13 +1,13 @@
-UNAME = $(shell uname)
+IS_WINDOWS = $(shell uname | grep 'MINGW32_NT' -c)
 EXT = bin
-ifeq ($(UNAME), Windows)
+ifeq ($(IS_WINDOWS), 1)
 	EXT = exe
 endif
 
 all: clean myfitnessdata
 
 clean:
-	rm -f myfitnessdata.bin
+	rm -f myfitnessdata.$(EXT)
 
 myfitnessdata:
-	buildapp --output myfitnessdata.$(EXT) --load myfitnessdata.lisp --entry myfitnessdata\:main
+	buildapp --output myfitnessdata.$(EXT) --load myfitnessdata.lisp --entry "myfitnessdata:main"

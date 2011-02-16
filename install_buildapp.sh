@@ -7,7 +7,7 @@ fi
 
 pushd buildapp-1.1
 make
-sudo make install
+make install
 popd
 rm -rf buildapp-1.1
 

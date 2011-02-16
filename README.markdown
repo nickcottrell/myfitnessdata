@@ -29,3 +29,16 @@ As of 9 January 2011, there is a bug in the SBCL package for Debian & Ubuntu whi
 `Not an absolute pathname #P"~/.clc/systems/"`
 
 The fix to this is documented [here](http://ikki.ws/showpost?postid=103).
+
+ms windows
+----------
+To build on MS Windows, you'll need to install [Git](http://code.google.com/p/msysgit/), along with the following [GnuWin32 packages](http://gnuwin32.sourceforge.net/packages.html):
+
+* wget
+* coreutils
+* gmake
+
+Make sure that your GnuWin32 bin directory is in your Windows PATH, as well.
+
+
+
