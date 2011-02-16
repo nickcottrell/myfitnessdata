@@ -1,3 +1,9 @@
+(defpackage :myfitnessdata
+  (:use :common-lisp)
+  (:export #:main))
+
+(in-package :myfitnessdata)
+
 (require :sb-posix)
 (load (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))
 (ql:quickload '("drakma" "closure-html" "cxml-stp"))
@@ -80,9 +86,12 @@
 	(write-csv (scrape-page 1 cookie-jar) path)
       (show-login-failure))))
 
-(if (= (length sb-ext:*posix-argv*) 3)
-    (let* ((username (nth 0 sb-ext:*posix-argv*))
-	   (password (nth 1 sb-ext:*posix-argv*))
-	   (path (nth 2 sb-ext:*posix-argv*)))
-      (scrape (username password path)))
-  (show-usage))
+(defun main ()
+  (if (= (length sb-ext:*posix-argv*) 3)
+      (let ((username (nth 0 sb-ext:*posix-argv*))
+	    (password (nth 1 sb-ext:*posix-argv*))
+	    (path (nth 2 sb-ext:*posix-argv*)))
+	(scrape (username password path)))
+    (show-usage)))
+
+(main)
