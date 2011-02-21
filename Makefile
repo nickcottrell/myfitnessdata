@@ -7,7 +7,8 @@ endif
 all: clean myfitnessdata
 
 clean:
-	rm -f myfitnessdata.$(EXT)
+	rm -f myfitnessdata$(EXT)
 
 myfitnessdata:
 	buildapp --output myfitnessdata$(EXT) --load myfitnessdata.lisp --entry "myfitnessdata:main"
+
