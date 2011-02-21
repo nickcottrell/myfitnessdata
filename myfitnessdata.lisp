@@ -1,6 +1,6 @@
 (defpackage :myfitnessdata
   (:use :common-lisp)
-  (:export #:main))
+  (:export #:main #:logged-in?))
 
 (in-package :myfitnessdata)
 
