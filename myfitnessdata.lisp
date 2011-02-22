@@ -32,6 +32,7 @@
   (setq logged-in? nil)
   (loop for cookie in (drakma:cookie-jar-cookies cookie-jar) do
 	(if (and (equal (drakma:cookie-name cookie) "known_user")
+		 (equal (drakma:cookie-domain cookie) "www.myfitnesspal.com")
 		 (drakma:cookie-value cookie))
 	    (setq logged-in? t)))
   logged-in?)
