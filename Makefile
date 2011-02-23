@@ -4,7 +4,7 @@ ifeq ($(IS_WINDOWS), 1)
 	EXT = .exe
 endif
 
-all: clean myfitnessdata
+all: clean myfitnessdata-tests myfitnessdata
 
 clean:
 	rm -f myfitnessdata$(EXT)
@@ -12,3 +12,5 @@ clean:
 myfitnessdata:
 	buildapp --output myfitnessdata$(EXT) --load myfitnessdata.lisp --entry "myfitnessdata:main"
 
+myfitnessdata-tests:
+	sbcl --script myfitnessdata-tests.lisp
