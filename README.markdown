@@ -31,7 +31,7 @@ The fix to this is documented [here](http://ikki.ws/showpost?postid=103).
 
 ms windows
 ----------
-To build on MS Windows, you'll need to install [Git](http://code.google.com/p/msysgit/), along with the following [GnuWin32 packages](http://gnuwin32.sourceforge.net/packages.html):
+To build on MS Windows, you'll need to install [OpenSSL](http://www.slproweb.com/products/Win32OpenSSL.html) and [Git](http://code.google.com/p/msysgit/), along with the following [GnuWin32 packages](http://gnuwin32.sourceforge.net/packages.html):
 
 * wget
 * coreutils
