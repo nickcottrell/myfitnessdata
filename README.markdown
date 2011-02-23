@@ -23,6 +23,11 @@ roadmap
 
 debian / ubuntu
 ---------------
+To build on Ubuntu, you'll need to install:
+* SBCL (using apt-get)
+* [Quicklisp](http://www.quicklisp.org/) (using install_quicklisp.sh)
+* [Buildapp](http://www.xach.com/lisp/buildapp/) (using install_buildapp.sh)
+
 As of 9 January 2011, there is a bug in the SBCL package for Debian & Ubuntu which will cause myfitnessdata to fail with an error like:
 
 `Not an absolute pathname #P"~/.clc/systems/"`
@@ -31,13 +36,16 @@ The fix to this is documented [here](http://ikki.ws/showpost?postid=103).
 
 ms windows
 ----------
-To build on MS Windows, you'll need to install [OpenSSL](http://www.slproweb.com/products/Win32OpenSSL.html) and [Git](http://code.google.com/p/msysgit/), along with the following [GnuWin32 packages](http://gnuwin32.sourceforge.net/packages.html):
+To build on MS Windows, you'll need to install:
 
-* wget
-* coreutils
-* gmake
+* [SBCL for Windows](http://www.sbcl.org/platform-table.html)
+* [Quicklisp](http://www.quicklisp.org/) (using install_quicklisp.sh)
+* [Buildapp](http://www.xach.com/lisp/buildapp/) (manually, see below)
+* [OpenSSL](http://www.slproweb.com/products/Win32OpenSSL.html)
+* [Git](http://code.google.com/p/msysgit/)
+* [GnuWin32 packages](http://gnuwin32.sourceforge.net/packages.html) wget, coreutils, gmake
 
-Make sure that your GnuWin32 bin directory is in your Windows PATH, as well.
+Make sure that your GnuWin32 bin directory is in your Windows PATH.
 
 When installing buildapp, note that the Makefile that comes with buildapp doesn't work on Windows.  So instead of using install_buildapp.sh, you'll need to run make, then manually copy buildapp.exe into place.
 
