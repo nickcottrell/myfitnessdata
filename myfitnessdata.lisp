@@ -1,6 +1,6 @@
 (defpackage :myfitnessdata
   (:use :common-lisp)
-  (:export #:main #:logged-in?))
+  (:export #:main #:logged-in? #:make-csv))
 
 (in-package :myfitnessdata)
 
@@ -9,10 +9,10 @@
 (ql:quickload '("drakma" "closure-html" "cxml-stp"))
 
 (defun show-usage () 
-  (format t "Usage: myfitnessdata USERNAME PASSWORD PATH~%~%")
+  (format t "Usage: myfitnessdata USERNAME PASSWORD FILENAME~%~%")
   (format t "  USERNAME  Your MyFitnessPal username~%")
   (format t "  PASSWORD  Your MyFitnessPal password~%")
-  (format t "  PATH      The path into which to place the CSV files~%~%")
+  (format t "  FILENAME  The pathname of the CSV file to write~%~%")
   (format t "Example:~%~%")
   (format t "  myfitnessdata bob b0bsp4ss! c:\\Users\\bob\\fitness~%~%")
   (format t "This will log into the MyFitnessPal site with the username 'bob' and the~%")
@@ -64,7 +64,7 @@
 	    (measurement-date (nth-child-data 1 row))
 	    (measurement-value (nth-child-data 2 row)))
 	(if (not (equal measurement-type "Measurement"))
-	    (cons measurement-date measurement-value)))))
+	    (list measurement-date measurement-value)))))
 
 (defun nth-child-data (number row)
   (stp:data (stp:nth-child 0 (stp:nth-child number row))))
@@ -75,22 +75,33 @@
 	(append (scrape-body body)
 		(scrape-page (+ 1 page-num) cookie-jar)))))
 
-(defun write-csv (data path)
-  (format t "Would write CSV to ~A: ~A~%" path data)) 
-
 (defun show-login-failure ()
   (format t "Login failed."))
 
-(defun scrape (username password path)
+(defun write-csv (data csv-pathname)
+  (with-open-file (stream csv-pathname :direction :output
+                           :if-exists :overwrite
+                           :if-does-not-exist :create)
+  (format stream (make-csv data))))
+
+(defun separate-values (value-list)
+    (format nil "~{\"~A\"~^,~}" value-list))
+
+(defun make-csv (list)
+  (setq csv "")
+  (mapcar (lambda (row) (setq csv (concatenate 'string csv (separate-values row) "\n"))) list)
+  csv)
+
+(defun scrape (username password csv-pathname)
   (let ((cookie-jar (login username password)))
     (if (logged-in? cookie-jar)
-	(write-csv (scrape-page 1 cookie-jar) path)
+	(write-csv (scrape-page 1 cookie-jar) csv-pathname)
       (show-login-failure))))
 
 (defun main (args)
   (if (= (length args) 4)
       (let ((username (nth 1 args))
 	    (password (nth 2 args))
-	    (path (nth 3 args)))
-	(scrape username password path))
+	    (csv-pathname (nth 3 args)))
+	(scrape username password csv-pathname))
     (show-usage)))
