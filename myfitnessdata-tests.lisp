@@ -42,7 +42,7 @@
 (lisp-unit:define-test 
  make-csv-from-list
  (let ((list '(("1/1/2000" "79.2") ("2/1/2000" "23.4"))))
-   (lisp-unit:assert-equal "\"1/1/2000\",\"79.2\"\n\"2/1/2000\",\"23.4\"\n"
+   (lisp-unit:assert-equal (format nil "\"1/1/2000\",\"79.2\"~%\"2/1/2000\",\"23.4\"~%")
 			   (myfitnessdata:make-csv list))))
 
 (run-tests-and-quit

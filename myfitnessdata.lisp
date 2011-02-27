@@ -89,7 +89,7 @@
 
 (defun make-csv (list)
   (setq csv "")
-  (mapcar (lambda (row) (setq csv (concatenate 'string csv (separate-values row) "\n"))) list)
+  (mapcar (lambda (row) (setq csv (concatenate 'string csv (separate-values row) (format nil "~%")))) list)
   csv)
 
 (defun scrape (username password csv-pathname)
