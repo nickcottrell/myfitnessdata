@@ -1,5 +1,5 @@
-buildapp.tgz
-myfitnessdata
-myfitnessdata.exe
-quicklisp.lisp
+utils/buildapp.tgz
+utils/quicklisp.lisp
+bin/myfitnessdata
+bin/myfitnessdata.exe
 

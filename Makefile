@@ -7,10 +7,12 @@ endif
 all: clean myfitnessdata-tests myfitnessdata
 
 clean:
-	rm -f myfitnessdata$(EXT)
+	rm -f bin/*
 
 myfitnessdata:
-	buildapp --output myfitnessdata$(EXT) --load myfitnessdata.lisp --entry "myfitnessdata:main"
+	cd src; buildapp --output ../bin/myfitnessdata$(EXT) --load myfitnessdata.lisp --entry "myfitnessdata:main"; cd ..
 
 myfitnessdata-tests:
-	sbcl --script myfitnessdata-tests.lisp
+	cd src; sbcl --script myfitnessdata-tests.lisp; cd ..
+
+
