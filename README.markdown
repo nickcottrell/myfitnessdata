@@ -19,7 +19,8 @@ roadmap
 2. Windows executable [done]
 3. parse just Weight information into weight.csv [in progress]
 4. Windows installer
-5. test suite
+5. test suite [in progress]
+6. Debian / Ubuntu installer
 
 debian / ubuntu
 ---------------
