@@ -4,7 +4,7 @@ myfitnessdata is an application to extract diet progress data from the [MyFitnes
 
 status
 ------
-myfitnessdata is a work in progress; I'm using it as an exercise to learn Lisp so I imagine progress will be slow.  I will be posting to the MyFitnessPal discussion forum once it's complete and ready to use.
+myfitnessdata is a work in progress; I'm using it as an exercise to learn Common Lisp so I imagine progress will be slow.  I will be posting to the MyFitnessPal discussion forum once it's complete and ready to use.
 
 licence
 -------
@@ -17,10 +17,10 @@ roadmap
 -------
 1. script that executes on any POSIX system running SBCL [done]
 2. Windows executable [done]
-3. parse just Weight information into weight.csv [in progress]
-4. Windows installer
-5. test suite [in progress]
-6. Debian / Ubuntu installer
+3. parse just Weight information into arbitrary CSV file [done]
+4. Windows installer [in progress]
+5. test suite and runner [done]
+6. Debian / Ubuntu installer [in progress]
 
 debian / ubuntu
 ---------------
