@@ -24,9 +24,10 @@ endif
 all: clean myfitnessdata-tests myfitnessdata installer
 
 clean:
-	rm -f bin/*
+	rm -rf bin
 
 myfitnessdata:
+	mkdir -p bin
 	cd src; buildapp --output ../bin/myfitnessdata$(EXT) --load myfitnessdata.lisp --entry "myfitnessdata:main"; cd ..
 
 myfitnessdata-tests:
@@ -34,7 +35,7 @@ myfitnessdata-tests:
 
 installer: 
 ifeq ($(IS_WINDOWS), 1)
-	echo TODO: Windows installer build here
+	cd win32; iscc.exe myfitnessdata.iss; cd ..	
 else
 	echo TODO: Ubuntu installer build here
 endif

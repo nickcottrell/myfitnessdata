@@ -2,4 +2,5 @@ utils/buildapp.tgz
 utils/quicklisp.lisp
 bin/myfitnessdata
 bin/myfitnessdata.exe
+win32/MyFitnessData-1.0.exe
 
