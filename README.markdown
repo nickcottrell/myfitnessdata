@@ -46,7 +46,7 @@ To build on MS Windows, you'll need to install:
 * [OpenSSL](http://www.slproweb.com/products/Win32OpenSSL.html)
 * [Git](http://code.google.com/p/msysgit/)
 * [GnuWin32 packages](http://gnuwin32.sourceforge.net/packages.html) wget, coreutils, gmake. Ensure that your GnuWin32 bin directory is in your Windows PATH.
-* [Inno Setup](http://www.jrsoftware.org/isinfo.php). Ensure that the location of issc.exe is in your PATH.
+* [Inno Setup](http://www.jrsoftware.org/isinfo.php). Ensure that the location of iscc.exe is in your PATH.
 
 When installing buildapp, note that the Makefile that comes with buildapp doesn't work on Windows.  So instead of using install_buildapp.sh, you'll need to run make, then manually copy buildapp.exe into place.
 
