@@ -106,7 +106,7 @@
 		(recursive-scrape-page (+ 1 page-num) cookie-jar)))))
 
 (defun show-login-failure ()
-  (format t "Login failed."))
+  (format t "Login failed.~%"))
 
 (defun write-csv (data csv-pathname)
   "Takes a list of lists of values, converts them to CSV, and writes them to a file."
@@ -117,7 +117,7 @@
 
 (defun separate-values (value-list)
   "Takes a list of values, and returns a string containing a CSV row that represents the values."
-  (format nil "~{\"~A\"~^,~}" value-list))
+  (format nil "~{~A~^,~}" value-list))
 
 (defun make-csv (list)
   "Takes a list of lists of values, and returns a string containing a CSV file representing each top-level list as a row."
