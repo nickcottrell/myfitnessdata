@@ -17,13 +17,16 @@
 
 (defpackage :myfitnessdata
   (:use :common-lisp)
-  (:export #:main #:logged-in? #:make-csv))
+  (:export #:main))
 
 (in-package :myfitnessdata)
 
 (require :sb-posix)
 (load (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))
-(ql:quickload '("drakma" "closure-html" "cxml-stp" "net-telent-date"))
+(ql:quickload '("drakma" 
+		"closure-html" 
+		"cxml-stp" 
+		"net-telent-date"))
 
 (defun show-usage () 
   (format t "MyFitnessData - a CSV web scraper for the MyFitnessPal website.~%")
@@ -45,22 +48,22 @@
 
 (defun login (username password)
   "Logs in to www.myfitnesspal.com.  Returns a cookie-jar containing authentication details."
-  (setq cookie-jar (make-instance 'drakma:cookie-jar))
-  (drakma:http-request "http://www.myfitnesspal.com/account/login"
-		       :method :post
-		       :parameters `(("username" . ,username) ("password" . ,password))
-		       :cookie-jar cookie-jar)
-  cookie-jar)
+  (let ((cookie-jar (make-instance 'drakma:cookie-jar)))
+    (drakma:http-request "http://www.myfitnesspal.com/account/login"
+			 :method :post
+			 :parameters `(("username" . ,username) ("password" . ,password))
+			 :cookie-jar cookie-jar)
+    cookie-jar))
 
 (defun logged-in? (cookie-jar)	     
   "Returns true if a cookie-jar contains login information for www.myfitnesspal.com, and nil otherwise."
-  (setq logged-in? nil)
-  (loop for cookie in (drakma:cookie-jar-cookies cookie-jar) do
-	(if (and (equal (drakma:cookie-name cookie) "known_user")
-		 (equal (drakma:cookie-domain cookie) "www.myfitnesspal.com")
-		 (drakma:cookie-value cookie))
-	    (setq logged-in? t)))
-  logged-in?)
+  (let ((logged-in? nil))
+    (loop for cookie in (drakma:cookie-jar-cookies cookie-jar) do
+	  (if (and (equal (drakma:cookie-name cookie) "known_user")
+		   (equal (drakma:cookie-domain cookie) "www.myfitnesspal.com")
+		   (drakma:cookie-value cookie))
+	      (setq logged-in? t)))
+    logged-in?))
 
 (defun get-page (page-num cookie-jar)
   "Downloads a potentially invalid HTML page containing data to scrape.  Returns a string containing the HTML."
@@ -78,13 +81,13 @@
 
 (defun scrape-xhtml (xhtml-tree)
   "Scrapes data from an XHTML tree, returning a list of lists of values."
-  (setq results nil)
-  (stp:do-recursively (element xhtml-tree)
-		      (when (and (typep element 'stp:element)
-				 (equal (stp:local-name element) "tr"))
-			(if (scrape-row element)
-			    (setq results (append results (list (scrape-row element)))))))
-  results)			  
+  (let ((results nil))
+    (stp:do-recursively (element xhtml-tree)
+			(when (and (typep element 'stp:element)
+				   (equal (stp:local-name element) "tr"))
+			  (if (scrape-row element)
+			      (setq results (append results (list (scrape-row element)))))))
+    results))
 
 (defun scrape-row (row)
   "Scrapes data from a table row into a list of values."
@@ -110,7 +113,8 @@
 
 (defun write-csv (data csv-pathname)
   "Takes a list of lists of values, converts them to CSV, and writes them to a file."
-  (with-open-file (stream csv-pathname :direction :output
+  (with-open-file (stream csv-pathname 
+			  :direction :output
 			  :if-exists :overwrite
 			  :if-does-not-exist :create)
 		  (format stream (make-csv data))))
@@ -121,10 +125,10 @@
 
 (defun make-csv (list)
   "Takes a list of lists of values, and returns a string containing a CSV file representing each top-level list as a row."
-  (setq csv "")
-  (setq sorted-list (sort list (lambda (a b) (< (net.telent.date:parse-time (car a)) (net.telent.date:parse-time (car b))))))
-  (mapcar (lambda (row) (setq csv (concatenate 'string csv (separate-values row) (format nil "~%")))) sorted-list)
-  csv)
+  (let ((csv ""))
+    (setq sorted-list (sort list (lambda (a b) (< (net.telent.date:parse-time (car a)) (net.telent.date:parse-time (car b))))))
+    (mapcar (lambda (row) (setq csv (concatenate 'string csv (separate-values row) (format nil "~%")))) sorted-list)
+    csv))
 
 (defun scrape (username password csv-pathname)
   "Attempts to log in, and if successful scrapes all data to the file specified by csv-pathname."
