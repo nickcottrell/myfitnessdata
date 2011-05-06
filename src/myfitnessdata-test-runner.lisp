@@ -14,13 +14,9 @@
 ;; You should have received a copy of the GNU Lesser General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-
-(defpackage :myfitnessdata-tests
-  (:use :common-lisp))
-
-(in-package :myfitnessdata-tests)
-
 (load "myfitnessdata-tests.lisp")
+
+(in-package :myfitnessdata)
 
 (defmacro run-tests-and-quit (&body tests)
   `(if (lisp-unit:run-tests ,@tests)

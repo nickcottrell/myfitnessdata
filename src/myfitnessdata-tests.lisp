@@ -14,19 +14,10 @@
 ;; You should have received a copy of the GNU Lesser General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-
-(defpackage :myfitnessdata-tests
-  (:use :common-lisp)
-  (:export #:logged-in-nil-when-no-cookies
- 	   #:logged-in-nil-when-cookies-from-wrong-domain
-	   #:logged-in-t-when-cookies-from-right-domain
-	   #:make-csv-from-list
-	   #:make-csv-from-list-is-sorted))
-
-(in-package :myfitnessdata-tests)
-
 (load "myfitnessdata.lisp")
 (ql:quickload '("lisp-unit"))
+
+(in-package :myfitnessdata)
 
 (defmacro run-tests-and-quit (&body tests)
   `(if (lisp-unit:run-tests ,@tests)
