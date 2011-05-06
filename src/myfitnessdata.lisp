@@ -23,7 +23,7 @@
 
 (require :sb-posix)
 (load (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname)))
-(ql:quickload '("drakma" "closure-html" "cxml-stp"))
+(ql:quickload '("drakma" "closure-html" "cxml-stp" "net-telent-date"))
 
 (defun show-usage () 
   (format t "MyFitnessData - a CSV web scraper for the MyFitnessPal website.~%")
@@ -122,7 +122,8 @@
 (defun make-csv (list)
   "Takes a list of lists of values, and returns a string containing a CSV file representing each top-level list as a row."
   (setq csv "")
-  (mapcar (lambda (row) (setq csv (concatenate 'string csv (separate-values row) (format nil "~%")))) list)
+  (setq sorted-list (sort list (lambda (a b) (< (net.telent.date:parse-time (car a)) (net.telent.date:parse-time (car b))))))
+  (mapcar (lambda (row) (setq csv (concatenate 'string csv (separate-values row) (format nil "~%")))) sorted-list)
   csv)
 
 (defun scrape (username password csv-pathname)

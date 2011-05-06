@@ -20,7 +20,8 @@
   (:export #:logged-in-nil-when-no-cookies
  	   #:logged-in-nil-when-cookies-from-wrong-domain
 	   #:logged-in-t-when-cookies-from-right-domain
-	   #:make-csv-from-list))
+	   #:make-csv-from-list
+	   #:make-csv-from-list-is-sorted))
 
 (in-package :myfitnessdata-tests)
 
@@ -67,3 +68,8 @@
    (lisp-unit:assert-equal (format nil "1/1/2000,79.2~%2/1/2000,23.4~%")
 			   (myfitnessdata:make-csv list))))
 
+(lisp-unit:define-test 
+ make-csv-from-list-is-sorted
+ (let ((list '(("2/1/2000" "23.4") ("1/1/2000" "79.2"))))
+   (lisp-unit:assert-equal (format nil "1/1/2000,79.2~%2/1/2000,23.4~%")
+			   (myfitnessdata:make-csv list))))

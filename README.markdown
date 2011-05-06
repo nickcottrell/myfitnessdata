@@ -18,7 +18,7 @@ roadmap
 1. script that executes on any POSIX system running SBCL [done]
 2. Windows executable [done]
 3. parse just Weight information into arbitrary CSV file [done]
-4. sort data by date [in progress]
+4. sort data by date [done]
 4. Windows installer [done]
 5. test suite and runner [done]
 6. Debian / Ubuntu installer [if requested]

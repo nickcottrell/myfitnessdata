@@ -27,8 +27,8 @@
        (sb-ext:quit :unix-status 1)
      (sb-ext:quit :unix-status 0)))
 
-(run-tests-and-quit
- myfitnessdata-tests:logged-in-nil-when-no-cookies
- myfitnessdata-tests:logged-in-nil-when-cookies-from-wrong-domain
- myfitnessdata-tests:logged-in-t-when-cookies-from-right-domain
- myfitnessdata-tests:make-csv-from-list)
+(run-tests-and-quit myfitnessdata-tests:logged-in-nil-when-no-cookies
+		    myfitnessdata-tests:logged-in-nil-when-cookies-from-wrong-domain
+		    myfitnessdata-tests:logged-in-t-when-cookies-from-right-domain
+		    myfitnessdata-tests:make-csv-from-list
+		    myfitnessdata-tests:make-csv-from-list-is-sorted)
