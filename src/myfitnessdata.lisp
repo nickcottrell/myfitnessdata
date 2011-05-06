@@ -125,10 +125,15 @@
 
 (defun make-csv (list)
   "Takes a list of lists of values, and returns a string containing a CSV file representing each top-level list as a row."
-  (let ((csv ""))
-    (setq sorted-list (sort list (lambda (a b) (< (net.telent.date:parse-time (car a)) (net.telent.date:parse-time (car b))))))
+  (let ((csv "")
+	(sorted-list (sort list #'first-column-as-date-ascending)))
     (mapcar (lambda (row) (setq csv (concatenate 'string csv (separate-values row) (format nil "~%")))) sorted-list)
     csv))
+
+(defun first-column-as-date-ascending (first-row second-row)
+  "Compares two rows by their first column, which is parsed as a time."
+  (< (net.telent.date:parse-time (car first-row))
+     (net.telent.date:parse-time (car second-row))))
 
 (defun scrape (username password csv-pathname)
   "Attempts to log in, and if successful scrapes all data to the file specified by csv-pathname."
