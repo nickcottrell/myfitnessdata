@@ -39,28 +39,28 @@
   logged-in-nil-when-no-cookies
   nil
   nil
-  (lisp-unit:assert-false (myfitnessdata:logged-in? cookie-jar)))
+  (lisp-unit:assert-false (logged-in? cookie-jar)))
 
 (define-test-with-cookie-jar
   logged-in-nil-when-cookies-from-wrong-domain
   "www.example.com" 
   "known_user" 
-  (lisp-unit:assert-false (myfitnessdata:logged-in? cookie-jar)))
+  (lisp-unit:assert-false (logged-in? cookie-jar)))
 
 (define-test-with-cookie-jar 
   logged-in-t-when-cookies-from-right-domain
   "www.myfitnesspal.com" 
   "known_user"
-  (lisp-unit:assert-true (myfitnessdata:logged-in? cookie-jar)))
+  (lisp-unit:assert-true (logged-in? cookie-jar)))
 
 (lisp-unit:define-test 
  make-csv-from-list
  (let ((list '(("1/1/2000" "79.2") ("2/1/2000" "23.4"))))
    (lisp-unit:assert-equal (format nil "1/1/2000,79.2~%2/1/2000,23.4~%")
-			   (myfitnessdata:make-csv list))))
+			   (make-csv list))))
 
 (lisp-unit:define-test 
  make-csv-from-list-is-sorted
  (let ((list '(("2/1/2000" "23.4") ("1/1/2000" "79.2"))))
    (lisp-unit:assert-equal (format nil "1/1/2000,79.2~%2/1/2000,23.4~%")
-			   (myfitnessdata:make-csv list))))
+			   (make-csv list))))
