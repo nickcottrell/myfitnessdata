@@ -57,15 +57,15 @@
 
 (defun get-page (page-num cookie-jar)
   "Downloads a potentially invalid HTML page containing data to scrape.  Returns a string containing the HTML."
-  (let ((url (format nil "http://www.myfitnesspal.com/measurements/edit?type=1&page=~D" page-num)))
-    (let ((body (http-request url :cookie-jar cookie-jar)))
-      (unless (search "No measurements found." body) body))))
+  (let* ((url (format nil "http://www.myfitnesspal.com/measurements/edit?type=1&page=~D" page-num))
+	 (body (http-request url :cookie-jar cookie-jar)))
+      (unless (search "No measurements found." body) body)))
 
 (defun scrape-body (body)
   "Scrapes data from a potentially invalid HTML document, returning a list of lists of values."
-  (let ((valid-xhtml (chtml:parse body (cxml:make-string-sink))))
-    (let ((xhtml-tree (chtml:parse valid-xhtml (cxml-stp:make-builder))))
-      (scrape-xhtml xhtml-tree))))
+  (let ((valid-xhtml (chtml:parse body (cxml:make-string-sink)))
+	(xhtml-tree (chtml:parse valid-xhtml (cxml-stp:make-builder))))
+    (scrape-xhtml xhtml-tree)))
 
 (defun scrape-xhtml (xhtml-tree)
   "Scrapes data from an XHTML tree, returning a list of lists of values."
