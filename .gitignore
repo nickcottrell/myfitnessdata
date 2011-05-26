@@ -3,6 +3,6 @@ utils/quicklisp.lisp
 bin
 bin/myfitnessdata
 bin/myfitnessdata.exe
-win32/MyFitnessData-1.0.exe
+win32/MyFitnessData-*.exe
 src/dumper-*.lisp
 
