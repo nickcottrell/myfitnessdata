@@ -5,10 +5,10 @@ if [ ! -f buildapp.tgz ]; then
     tar -zxvf buildapp.tgz;
 fi 
 
-pushd buildapp-1.1
+pushd buildapp-1.3
 make
 sudo make install
 popd
-rm -rf buildapp-1.1
+rm -rf buildapp-1.3
 
  
