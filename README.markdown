@@ -21,7 +21,9 @@ roadmap
 4. sort data by date [done]
 4. Windows installer [done]
 5. test suite and runner [done]
-6. Debian / Ubuntu installer [if requested]
+6. web proxy support
+7. additional export features
+8. Debian / Ubuntu installer [if requested]
 
 debian / ubuntu
 ---------------
