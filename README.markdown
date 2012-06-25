@@ -4,7 +4,7 @@ myfitnessdata is an application to extract diet progress data from the [MyFitnes
 
 status
 ------
-myfitnessdata is a work in progress; I'm using it as an exercise to learn Common Lisp so I imagine progress will be slow.  I will be posting to the MyFitnessPal discussion forum once it's complete and ready to use.
+I have released MyFitnessData 1.1; release notes are available on [the wiki](https://github.com/duncan-bayne/myfitnessdata/wiki).
 
 licence
 -------
