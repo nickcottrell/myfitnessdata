@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "MyFitnessData"
-#define MyAppVersion "1.1"
+#define MyAppVersion "2.0"
 #define MyAppPublisher "Duncan Bayne"
 #define MyAppURL "https://github.com/duncan-bayne/myfitnessdata"
 #define MyAppExeName "myfitnessdata.exe"
@@ -24,37 +24,19 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 LicenseFile=licence.txt
 OutputDir=.
-OutputBaseFilename=MyFitnessData-1.1
+OutputBaseFilename=MyFitnessData-2.0
 Compression=lzma
 SolidCompression=yes
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
-[Tasks]
-Name: "modifypath"; Description: "Add application directory to your environmental path"; 
-
 [Files]
 Source: "..\bin\myfitnessdata.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "licence.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "libssl32.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "libeay32.dll"; DestDir: "{app}"; Flags: ignoreversion
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{group}\Licence"; Filename: "{app}\licence.txt"
-
-[Code]
-const
-		ModPathName = 'modifypath';
-		ModPathType = 'user';
-
-		function ModPathDir(): TArrayOfString;
-		begin
-			setArrayLength(Result, 1)
-			Result[0] := ExpandConstant('{app}');
-		end;
-
-		#include "modpath.iss"
